@@ -31,11 +31,11 @@ Layer::~Layer()
 }
 
 //Calulate the activation of the array
-Matrix& Layer::f_(const Matrix &m)
+Matrix Layer::f_(const Matrix &m)
 {
     int row, col;
 
-    m.size(row, col);
+    m.size(&row, &col);
     Matrix out(row, col);
     for(int i = 0; i < row; i ++) {
         for(int j = 0; i < col; j ++) {
@@ -46,11 +46,11 @@ Matrix& Layer::f_(const Matrix &m)
 }
 
 //Calulate the activation derivative of the array
-Matrix& Layer::fprime_(const Matrix &m)
+Matrix Layer::fprime_(const Matrix &m)
 {
     int row, col;
 
-    m.size(row, col);
+    m.size(&row, &col);
     Matrix out(row, col);
     for(int i = 0; i < row; i ++) {
         for(int j = 0; i < col; j ++) {
