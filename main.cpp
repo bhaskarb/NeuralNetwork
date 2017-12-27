@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Matrix.h"
 #include "Activation.h"
+#include "Layers.h"
 
 using namespace NN;
 
