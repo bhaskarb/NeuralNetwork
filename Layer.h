@@ -16,6 +16,8 @@ namespace NN {
             virtual double output(double x) = 0;
             virtual double outputprime(double x) = 0;
 
+            Matrix& f_(const Matrix &m);
+            Matrix& fprime_(const Matrix &m);
             int ninputs_, noutputs_;
             Matrix *weight_, *weightderiv_;
             Matrix *bias_, *biasderiv_;
