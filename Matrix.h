@@ -7,6 +7,7 @@ namespace NN {
     class Matrix {
         public:
             //constructor
+            Matrix();
             Matrix(int m, int n);
             Matrix(int m); //Square matrix
             //Destructor

@@ -1,8 +1,7 @@
 #include <random>
 #include <iostream>
 #include "Matrix.h"
-#include "Activation.h"
-#include "Layers.h"
+#include "Layer.h"
 
 using namespace NN;
 
