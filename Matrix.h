@@ -14,11 +14,14 @@ namespace NN {
 
             //Other ways of initializing
             void randn(double mu, double sigma);
+            void eye();
             
             void size(int *row, int *col) const { *row = row_; *col = col_; }
             double val(int row, int col) const;
             void set(int row, int col, double value);
-           
+          
+            //Transpose
+            Matrix transpose(void);
             //Assignment operator
             void operator =(const Matrix &n);
             //Addition of 2 matrices
@@ -26,8 +29,7 @@ namespace NN {
             Matrix operator -(const Matrix &n);
             //product of 2 matrices
             Matrix operator *(const Matrix &n);
-            
-           
+            Matrix operator *(const int &k);
             
             //print the matrix
             friend std::ostream &operator<<(std::ostream &os, const Matrix &m)
@@ -43,8 +45,7 @@ namespace NN {
                 }
                 return os;
             }
-
-
+        
         private:
             //Right now for simplicity lets just deal with double arrays 
             //since that is what we need for neural computation

@@ -44,6 +44,14 @@ void Matrix::randn(double mu, double sigma)
     }
 }
 
+//Initialize the matrix with a random set of values from a normal distribution
+void Matrix::eye()
+{
+    for(int i = 0; i < std::min(row_, col_); i ++) {
+        data_[i][i] = 1;
+    }
+}
+
 //Get the value at the location: b = A[i][j]
 //The problem with the [] operator is not knowing which dimensions is currently picked
 double Matrix::val(int row, int col) const
@@ -72,6 +80,18 @@ Matrix::~Matrix()
         delete [] data_[i];
     }
     delete data_;
+}
+
+//Transpose of a matrix
+Matrix Matrix::transpose(void)
+{
+    Matrix out(col_, row_);
+    for (int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            out.set(j, i, data_[i][j]);
+        }
+    }
+    return out;
 }
 
 //Overload the + operator to return sum of 2 matrices
@@ -123,6 +143,18 @@ Matrix Matrix::operator *(const Matrix &n)
                 sum += data_[i][k]*n.val(k, j);
             }
             out.set(i, j, sum);
+        }
+    }
+    return out;
+}
+
+//Multiply by a constant kA
+Matrix Matrix::operator *(const int &k) 
+{
+    Matrix out(row_, col_);
+    for(int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            out.set(i, j, data_[i][j]*k);
         }
     }
     return out;
