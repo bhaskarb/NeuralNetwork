@@ -1,6 +1,7 @@
 #include <random>
 #include <iostream>
 #include "Matrix.h"
+#include "Activation.h"
 
 using namespace NN;
 
