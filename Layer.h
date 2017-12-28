@@ -11,8 +11,19 @@ namespace NN {
             void Init(double mu = 0.0, double sigma = 1.0);
             Matrix Fprop(const Matrix &x);
             Matrix Bprop(const Matrix &dEdY);
+
             Matrix& W(void) const {return *W_; };
             Matrix& dEdW(void) const {return *dEdW_; };
+            const int noutputs(void) const {return ninputs_;};
+            const int ninputs(void) const {return ninputs_;};
+
+            //print the matrix
+            friend std::ostream &operator<<(std::ostream &os, const Layer &l) 
+            {
+                std::cout << "Layer inputs = " << l.ninputs() << '\n';
+                std::cout << "Layer outputs = " << l.noutputs() << '\n';
+                std::cout << "Layer weights = " << l.W() << '\n';
+            }
 
         private:
             //We are making an ABS here, the various layer types will define this

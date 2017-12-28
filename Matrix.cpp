@@ -234,3 +234,20 @@ void Matrix::operator =(const Matrix &n)
         }
     }
 }
+
+bool Matrix::operator ==(const Matrix &n) const
+{
+    int nrow_, ncol_;
+
+    n.size(&nrow_, &ncol_);
+    assert(nrow_ == row_);
+    assert(ncol_ == col_);
+    for(int i = 0; i < row_; i ++) {
+        for(int j = 0; j < row_; j ++) {
+            if(data_[i][j] != n.val(i, j) ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}

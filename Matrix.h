@@ -35,9 +35,12 @@ namespace NN {
             Matrix operator -(const Matrix &n) const;
             //product of 2 matrices
             Matrix operator *(const Matrix &n) const;
+            // Y = kA
             Matrix operator *(const int &k) const;
             //Hadamard product
             Matrix operator &&(const Matrix &n) const;
+            //equality
+            bool operator ==(const Matrix &n) const;
             
             //print the matrix
             friend std::ostream &operator<<(std::ostream &os, const Matrix &m) 
