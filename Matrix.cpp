@@ -82,8 +82,24 @@ Matrix::~Matrix()
     delete data_;
 }
 
+//Resize the matrix, fill in with fill if size is larger otherwise truncate 
+Matrix Matrix::resize(int row, int col, double fill) const
+{
+    Matrix out(col, row);
+    for (int i = 0; i < row; i ++) {
+        for(int j = 0; j < col; j ++) {
+            if(i < row_ && j < col_) {
+                out.set(i, j, data_[i][j]);
+            } else {
+                out.set(i, j, fill);
+            }
+        }
+    }
+    return out;
+}
+
 //Transpose of a matrix
-Matrix Matrix::transpose(void)
+Matrix Matrix::transpose(void) const
 {
     Matrix out(col_, row_);
     for (int i = 0; i < row_; i ++) {
@@ -94,8 +110,36 @@ Matrix Matrix::transpose(void)
     return out;
 }
 
+//negative of a matrix
+Matrix Matrix::operator -(void) const
+{
+    Matrix out(col_, row_);
+    for (int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            out.set(j, i, -data_[i][j]);
+        }
+    }
+    return out;
+}
+
 //Overload the + operator to return sum of 2 matrices
-Matrix Matrix::operator +(const Matrix &n)
+Matrix& Matrix::operator +=(const Matrix &n)
+{
+    int nrow_, ncol_;
+
+    n.size(&nrow_, &ncol_);
+    assert(row_ == nrow_);
+    assert(col_ == ncol_);
+    for (int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            data_[i][j] += n.val(i, j);
+        }
+    }
+    return *this;
+}
+
+//Overload the + operator to return sum of 2 matrices
+Matrix Matrix::operator +(const Matrix &n) const
 {
     int nrow_, ncol_;
 
@@ -111,8 +155,25 @@ Matrix Matrix::operator +(const Matrix &n)
     return out;
 }
 
+//Overload the & operator to return hadamard product cij = aij*bij
+Matrix Matrix::operator &&(const Matrix &n) const
+{
+    int nrow_, ncol_;
+
+    n.size(&nrow_, &ncol_);
+    assert(row_ == nrow_);
+    assert(col_ == ncol_);
+    Matrix out(row_, col_);
+    for (int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            out.set(i, j, data_[i][j] * n.val(i, j));
+        }
+    }
+    return out;
+}
+
 //Overload the - operator to return sum of 2 matrices
-Matrix Matrix::operator -(const Matrix &n)
+Matrix Matrix::operator -(const Matrix &n) const
 {
     int nrow_, ncol_;
 
@@ -128,7 +189,7 @@ Matrix Matrix::operator -(const Matrix &n)
     return out;
 }
 
-Matrix Matrix::operator *(const Matrix &n) 
+Matrix Matrix::operator *(const Matrix &n) const 
 {
     int nrow_, ncol_;
     double sum;
@@ -149,7 +210,7 @@ Matrix Matrix::operator *(const Matrix &n)
 }
 
 //Multiply by a constant kA
-Matrix Matrix::operator *(const int &k) 
+Matrix Matrix::operator *(const int &k) const 
 {
     Matrix out(row_, col_);
     for(int i = 0; i < row_; i ++) {

@@ -22,18 +22,25 @@ namespace NN {
             void set(int row, int col, double value);
           
             //Transpose
-            Matrix transpose(void);
+            Matrix transpose(void) const;
+            Matrix resize(int row, int col, double fill) const;
             //Assignment operator
             void operator =(const Matrix &n);
-            //Addition of 2 matrices
-            Matrix operator +(const Matrix &n);
-            Matrix operator -(const Matrix &n);
+            //Addition of a matrix to another +=, -= operators. This leads to less memory?
+            Matrix& operator +=(const Matrix &n);
+            //Unary operator
+            Matrix operator -(void) const;
+
+            Matrix operator +(const Matrix &n) const;
+            Matrix operator -(const Matrix &n) const;
             //product of 2 matrices
-            Matrix operator *(const Matrix &n);
-            Matrix operator *(const int &k);
+            Matrix operator *(const Matrix &n) const;
+            Matrix operator *(const int &k) const;
+            //Hadamard product
+            Matrix operator &&(const Matrix &n) const;
             
             //print the matrix
-            friend std::ostream &operator<<(std::ostream &os, const Matrix &m)
+            friend std::ostream &operator<<(std::ostream &os, const Matrix &m) 
             {
                 int mrow_, mcol_;
 
