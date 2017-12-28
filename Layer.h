@@ -1,6 +1,7 @@
 #ifndef __LAYER_H__
 #define __LAYER_H__
 #include "Matrix.h"
+#include "Activation.h"
 
 namespace NN {
     class Layer {
@@ -40,6 +41,7 @@ namespace NN {
             Matrix *dYdZ_;
             Matrix *Z_;
             Matrix *X_;
+            Activation *act;
     };
 }
 #endif
