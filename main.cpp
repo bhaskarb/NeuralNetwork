@@ -39,9 +39,9 @@ int main()
         outLayerdW.reset();
         for(int i = 0; i < 2; i ++) {
             for(int j = 0; j < 2; j ++) {
-                in.set(0, 0, i);
-                in.set(1, 0, j);
-                t.set(0, 0, (i==j)?0:1);
+                in.set(0, 0, i - 0.5);
+                in.set(1, 0, j - 0.5);
+                t.set(0, 0, (i==j)?-0.5:0.5);
                 trainXorOnce(inLayer, outLayer, in, t);
                 inLayerdW += inLayer.dEdW();
                 outLayerdW += outLayer.dEdW();
