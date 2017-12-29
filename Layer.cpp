@@ -67,15 +67,15 @@ Matrix Layer::Fprop(const Matrix &x)
 Matrix Layer::Bprop(const Matrix &dEdY)
 {
     Matrix dEdX(ninputs_ + 1, 1);
-    Matrix had(noutputs_, 1);
+    Matrix dEdZ(noutputs_, 1);
 
-    had = (dEdY && (*dYdZ_));
+    dEdZ = (dEdY && (*dYdZ_));
     DEBUG_MSG("Hadamard product is" << had << "(" << had.row() << "," << had.col() << ")");
     //dEdY = outx1
     //dYdZ = outx1
     //dZdX = (in + 1)xout=W_
     //dEdX = (in + 1)x1 = dZdX*(dYdZ o dEdZ);
-    dEdX = (*W_)*had;
+    dEdX = (*W_)*dEdZ;
     DEBUG_MSG("dE/dX = " << dEdX << "(" << dEdX.row() << "," << dEdX.col() << ")");
     //dZdW = (in + 1)*1 = X_, need to prove this
     //dEdW = (in +1)xout = dZdW*(dYdZ o dEdZ);

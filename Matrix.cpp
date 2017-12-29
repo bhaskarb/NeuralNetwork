@@ -53,6 +53,16 @@ void Matrix::eye()
     }
 }
 
+//Initialize the matrix to a constant
+void Matrix::constVal(double val)
+{
+    for(int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            data_[i][j] = constVal; 
+        }
+    }
+}
+
 //Get the value at the location: b = A[i][j]
 //The problem with the [] operator is not knowing which dimensions is currently picked
 double Matrix::val(int row, int col) const
@@ -74,6 +84,15 @@ void Matrix::set(int row, int col, double value)
     assert(col < col_);
     assert(col >= 0);
     data_[row][col] = value;
+}
+
+void Matrix::reset(void)
+{
+    for (int i = 0; i < row_; i ++) {
+        for(int j = 0; j < col_; j ++) {
+            data_[i][j] = 0;
+        }
+    }
 }
 
 Matrix::~Matrix()

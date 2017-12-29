@@ -16,6 +16,7 @@ namespace NN {
             //Other ways of initializing
             void randn(double mu, double sigma);
             void eye();
+            void constVal(double val);
             
             void size(int *row, int *col) const { *row = row_; *col = col_; }
             int row(void) const {return row_;};
@@ -23,6 +24,7 @@ namespace NN {
 
             double val(int row, int col) const;
             void set(int row, int col, double value);
+            void reset(void);
           
             //Transpose
             Matrix transpose(void) const;
