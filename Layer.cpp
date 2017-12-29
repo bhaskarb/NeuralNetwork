@@ -54,6 +54,7 @@ Matrix Layer::Fprop(const Matrix &x)
     out = act_->f(*Z_, false);
     DEBUG_MSG("Y is " << out);
     *dYdZ_ = act_->f(*Z_, true);
+    DEBUG_MSG("dY/dZ is " << *dYdZ_);
     return out;
 }
 
@@ -69,14 +70,18 @@ Matrix Layer::Bprop(const Matrix &dEdY)
     Matrix dEdX(ninputs_ + 1, 1);
     Matrix dEdZ(noutputs_, 1);
 
+    DEBUG_MSG("Backpropagation:"); 
+    DEBUG_MSG("X = " << *X_);
+    DEBUG_MSG("W = " << *W_);
+    DEBUG_MSG("dE/dY = " << dEdY); 
     dEdZ = (dEdY && (*dYdZ_));
-    DEBUG_MSG("Hadamard product is" << had << "(" << had.row() << "," << had.col() << ")");
+    DEBUG_MSG("dE/dZ = " << dEdZ); 
     //dEdY = outx1
     //dYdZ = outx1
     //dZdX = (in + 1)xout=W_
     //dEdX = (in + 1)x1 = dZdX*(dYdZ o dEdZ);
     dEdX = (*W_)*dEdZ;
-    DEBUG_MSG("dE/dX = " << dEdX << "(" << dEdX.row() << "," << dEdX.col() << ")");
+    DEBUG_MSG("dE/dX = " << dEdX);
     //dZdW = (in + 1)*1 = X_, need to prove this
     //dEdW = (in +1)xout = dZdW*(dYdZ o dEdZ);
     *dEdW_ = (*X_)*dEdZ.transpose();
