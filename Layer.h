@@ -12,6 +12,7 @@ namespace NN {
             void Init(double mu, double sigma, Activation *act);
             Matrix Fprop(const Matrix &x);
             Matrix Bprop(const Matrix &dEdY);
+            void updateW(const Matrix &dEdW) { *W_ += -dEdW;};
 
             Matrix& W(void) const {return *W_; };
             Matrix& dEdW(void) const {return *dEdW_; };

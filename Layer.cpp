@@ -49,7 +49,7 @@ Matrix Layer::Fprop(const Matrix &x)
     localX = x.resize(ninputs_ + 1, 1, 1.0);
     DEBUG_MSG("input vector is" << localX);
     *X_ = localX; 
-    *Z_ = W_->transpose()*(*X_);
+    *Z_ = W_->transpose()*(localX);
     DEBUG_MSG("Z is " << *Z_);
     out = act_->f(*Z_, false);
     DEBUG_MSG("Y is " << out);
@@ -67,15 +67,20 @@ Matrix Layer::Fprop(const Matrix &x)
 Matrix Layer::Bprop(const Matrix &dEdY)
 {
     Matrix dEdX(ninputs_ + 1, 1);
+    Matrix had(noutputs_, 1);
 
+    had = (dEdY && (*dYdZ_));
+    DEBUG_MSG("Hadamard product is" << had << "(" << had.row() << "," << had.col() << ")");
     //dEdY = outx1
     //dYdZ = outx1
     //dZdX = (in + 1)xout=W_
     //dEdX = (in + 1)x1 = dZdX*(dYdZ o dEdZ);
-    dEdX = (*W_)*(dEdY && (*dYdZ_));
+    dEdX = (*W_)*had;
+    DEBUG_MSG("dE/dX = " << dEdX << "(" << dEdX.row() << "," << dEdX.col() << ")");
     //dZdW = (in + 1)*1 = X_, need to prove this
     //dEdW = (in +1)xout = dZdW*(dYdZ o dEdZ);
-    *dEdW_ = (*X_)*(dEdY&&(*dYdZ_));
-    return dEdX;
+    *dEdW_ = (*X_)*had.transpose();
+    DEBUG_MSG("dE/dW = " << *dEdW_);
+    return dEdX.resize(ninputs_, 1, 0);
 }
 

@@ -118,10 +118,10 @@ Matrix Matrix::transpose(void) const
 //negative of a matrix
 Matrix Matrix::operator -(void) const
 {
-    Matrix out(col_, row_);
+    Matrix out(row_, col_);
     for (int i = 0; i < row_; i ++) {
         for(int j = 0; j < col_; j ++) {
-            out.set(j, i, -data_[i][j]);
+            out.set(i, j, -data_[i][j]);
         }
     }
     return out;
@@ -215,7 +215,7 @@ Matrix Matrix::operator *(const Matrix &n) const
 }
 
 //Multiply by a constant kA
-Matrix Matrix::operator *(const int &k) const 
+Matrix Matrix::operator *(const double &k) const 
 {
     Matrix out(row_, col_);
     for(int i = 0; i < row_; i ++) {

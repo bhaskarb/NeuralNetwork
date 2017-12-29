@@ -18,6 +18,9 @@ namespace NN {
             void eye();
             
             void size(int *row, int *col) const { *row = row_; *col = col_; }
+            int row(void) const {return row_;};
+            int col(void) const {return col_;};
+
             double val(int row, int col) const;
             void set(int row, int col, double value);
           
@@ -36,7 +39,7 @@ namespace NN {
             //product of 2 matrices
             Matrix operator *(const Matrix &n) const;
             // Y = kA
-            Matrix operator *(const int &k) const;
+            Matrix operator *(const double &k) const;
             //Hadamard product
             Matrix operator &&(const Matrix &n) const;
             //equality
