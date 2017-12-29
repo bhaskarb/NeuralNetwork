@@ -79,7 +79,7 @@ Matrix Layer::Bprop(const Matrix &dEdY)
     DEBUG_MSG("dE/dX = " << dEdX << "(" << dEdX.row() << "," << dEdX.col() << ")");
     //dZdW = (in + 1)*1 = X_, need to prove this
     //dEdW = (in +1)xout = dZdW*(dYdZ o dEdZ);
-    *dEdW_ = (*X_)*had.transpose();
+    *dEdW_ = (*X_)*dEdZ.transpose();
     DEBUG_MSG("dE/dW = " << *dEdW_);
     return dEdX.resize(ninputs_, 1, 0);
 }

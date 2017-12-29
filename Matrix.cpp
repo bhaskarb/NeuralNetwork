@@ -58,7 +58,7 @@ void Matrix::constVal(double val)
 {
     for(int i = 0; i < row_; i ++) {
         for(int j = 0; j < col_; j ++) {
-            data_[i][j] = constVal; 
+            data_[i][j] = val; 
         }
     }
 }
