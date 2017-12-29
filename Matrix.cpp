@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include "Matrix.h"
+#include "debug.h"
 
 using namespace NN;
 //Contructor for the matrix object
@@ -67,6 +68,7 @@ double Matrix::val(int row, int col) const
 //The problem with the [] operator is not knowing which dimensions is currently picked
 void Matrix::set(int row, int col, double value)
 {
+    DEBUG_MSG("col: " << col << "," << col_ << '\n');
     assert(row < row_);
     assert(row >= 0);
     assert(col < col_);
@@ -85,7 +87,10 @@ Matrix::~Matrix()
 //Resize the matrix, fill in with fill if size is larger otherwise truncate 
 Matrix Matrix::resize(int row, int col, double fill) const
 {
-    Matrix out(col, row);
+    Matrix out(row, col);
+    
+    DEBUG_MSG("resize: " << row << "," << col << '\n');
+    DEBUG_MSG("resize: " << row_ << "," << col_ << '\n');
     for (int i = 0; i < row; i ++) {
         for(int j = 0; j < col; j ++) {
             if(i < row_ && j < col_) {
@@ -229,7 +234,7 @@ void Matrix::operator =(const Matrix &n)
     assert(nrow_ == row_);
     assert(ncol_ == col_);
     for(int i = 0; i < row_; i ++) {
-        for(int j = 0; j < row_; j ++) {
+        for(int j = 0; j < col_; j ++) {
             data_[i][j] = n.val(i, j);
         }
     }

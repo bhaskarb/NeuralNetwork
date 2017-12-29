@@ -1,5 +1,8 @@
+#include <iostream> 
 #include <cassert> 
 #include "Layer.h"
+#include "debug.h"
+
 using namespace NN;
 
 Layer::Layer(int num_inputs, int num_outputs)
@@ -9,7 +12,7 @@ Layer::Layer(int num_inputs, int num_outputs)
 }
 
 //Initialize the weights using a provided mu and sigma
-void Layer::Init(double mu, double sigma)
+void Layer::Init(double mu, double sigma, Activation *act)
 {
     assert(ninputs_ > 0);
     assert(noutputs_ > 0);
@@ -21,6 +24,7 @@ void Layer::Init(double mu, double sigma)
 
     //Initialize the weights, right now using a normal distribution
     W_->randn(mu, sigma);
+    act_ = act;
 }
 
 Layer::~Layer()
@@ -43,9 +47,13 @@ Matrix Layer::Fprop(const Matrix &x)
     Matrix out(noutputs_, 1);
     Matrix localX(ninputs_ + 1 , 1);
     localX = x.resize(ninputs_ + 1, 1, 1.0);
+    DEBUG_MSG("input vector is" << localX);
     *X_ = localX; 
     *Z_ = W_->transpose()*(*X_);
-    out = f_(*Z_);
+    DEBUG_MSG("Z is " << *Z_);
+    out = act_->f(*Z_, false);
+    DEBUG_MSG("Y is " << out);
+    *dYdZ_ = act_->f(*Z_, true);
     return out;
 }
 
@@ -71,32 +79,3 @@ Matrix Layer::Bprop(const Matrix &dEdY)
     return dEdX;
 }
 
-//Calulate the activation of the array
-Matrix Layer::f_(const Matrix &m)
-{
-    int row, col;
-
-    m.size(&row, &col);
-    Matrix out(row, col);
-    for(int i = 0; i < row; i ++) {
-        for(int j = 0; i < col; j ++) {
-            out.set(i, j, output(m.val(i,j)));
-        }
-    }
-    return out;
-}
-
-//Calulate the activation derivative of the array
-Matrix Layer::fprime_(const Matrix &m)
-{
-    int row, col;
-
-    m.size(&row, &col);
-    Matrix out(row, col);
-    for(int i = 0; i < row; i ++) {
-        for(int j = 0; i < col; j ++) {
-            out.set(i, j, outputprime(m.val(i,j)));
-        }
-    }
-    return out;
-}

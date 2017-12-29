@@ -48,6 +48,7 @@ namespace NN {
                 int mrow_, mcol_;
 
                 m.size(&mrow_, &mcol_);
+                os << '\n';
                 for(int i = 0; i < mrow_; i ++) {
                     for(int j = 0; j < mcol_; j ++) {
                         os << m.val(i, j) << " ";

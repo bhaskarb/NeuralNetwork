@@ -1,11 +1,14 @@
 #ifndef __ACTIVATION_H__
 #define __ACTIVATION_H__
 #include <math.h>
+#include "Matrix.h" 
 
 namespace NN {
     class Activation {
-        virtual double val(double x) = 0;
-        virtual double prime(double x) = 0;
+        public:
+            Matrix f(const Matrix &m, bool derivative);
+            virtual double val(double x) = 0;
+            virtual double prime(double x) = 0;
     };
     class logistic: public Activation {
         double val(double x) { return 1.0/(1.0 + exp(-x)); }

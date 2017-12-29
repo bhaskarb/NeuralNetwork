@@ -9,13 +9,13 @@ namespace NN {
             Layer(int num_inputs, int num_outputs);
             ~Layer();
             //Initialize the layer structures, creates the weight, bias and the derivative matrices
-            void Init(double mu = 0.0, double sigma = 1.0);
+            void Init(double mu, double sigma, Activation *act);
             Matrix Fprop(const Matrix &x);
             Matrix Bprop(const Matrix &dEdY);
 
             Matrix& W(void) const {return *W_; };
             Matrix& dEdW(void) const {return *dEdW_; };
-            const int noutputs(void) const {return ninputs_;};
+            const int noutputs(void) const {return noutputs_;};
             const int ninputs(void) const {return ninputs_;};
 
             //print the matrix
@@ -23,16 +23,11 @@ namespace NN {
             {
                 std::cout << "Layer inputs = " << l.ninputs() << '\n';
                 std::cout << "Layer outputs = " << l.noutputs() << '\n';
-                std::cout << "Layer weights = " << l.W() << '\n';
+                std::cout << "Layer weights = \n" << l.W() << '\n';
             }
 
         private:
             //We are making an ABS here, the various layer types will define this
-            virtual double output(double x) = 0;
-            virtual double outputprime(double x) = 0;
-
-            Matrix f_(const Matrix &m);
-            Matrix fprime_(const Matrix &m);
             int ninputs_, noutputs_;
 
             //We are incorporating the bias into the weight vector so the vector is (ninputs_ + 1)*noutputs_
@@ -41,7 +36,7 @@ namespace NN {
             Matrix *dYdZ_;
             Matrix *Z_;
             Matrix *X_;
-            Activation *act;
+            Activation *act_;
     };
 }
 #endif
